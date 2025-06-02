@@ -1,1 +1,1 @@
-from . import user, habit
+from . import user, habit, record
