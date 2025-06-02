@@ -12,4 +12,6 @@ class User(Base):
   avatar_url = Column(String(255))
   created_at = Column(DateTime, server_default=func.now(), nullable=False)
   updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
+  
   habits = relationship("Habit", back_populates="user")
+  records = relationship("Record", back_populates="user", cascade="all, delete-orphan")

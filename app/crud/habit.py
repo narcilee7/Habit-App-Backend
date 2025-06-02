@@ -19,9 +19,6 @@ def create_habit(db: Session, user_id: int, title: str, color: str, description:
 def get_user_habits(db: Session, user_id: int):
     return db.query(Habit).filter(Habit.user_id == user_id).all()
 
-def get_habit_by_id(db: Session, habit_id: int):
-    return db.query(Habit).filter(Habit.id == habit_id).first()
-
 def update_habit(db: Session, habit_id: int, title: Optional[str] = None, description: Optional[str] = None, color: Optional[str] = None, icon: Optional[str] = None):
     habit = get_habit_by_id(db, habit_id)
     if not habit:
@@ -52,3 +49,9 @@ def delete_habit(db: Session, habit_id: int):
     db.delete(habit)
     db.commit()
     return habit
+
+def get_habits_count(db: Session, user_id: int):
+    return db.query(Habit).filter(Habit.user_id == user_id).count()
+
+def get_habit_by_id(db: Session, habit_id: int):
+    return db.query(Habit).filter(Habit.id == habit_id).first()

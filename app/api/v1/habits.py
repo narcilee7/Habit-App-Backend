@@ -63,3 +63,20 @@ def delete_habit(
 
     deleted_habit = crud.habit.delete_habit(db, habit_id=habit_id)
     return delete_habit if deleted_habit else HTTPException(status_code=404, detail="Habit not found")
+
+@router.get("/{habit_id}", response_model=schemas.habit.HabitOut)
+def get_habit_by_id(
+    habit_id: int,
+    db: Session = Depends(get_db),
+):
+    habit = crud.habit.get_habit_by_id(db, habit_id=habit_id)
+    if not habit:
+        raise HTTPException(status_code=404, detail="Habit not found")
+    return habit
+
+@router.get("/stat/count", response_model=int)
+def get_habits_count(
+    db: Session = Depends(get_db),
+    current_user_id: int = Depends(get_current_user_id),
+):
+    return crud.habit.get_habits_count(db, user_id=current_user_id)
